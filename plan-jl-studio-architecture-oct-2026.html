@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JL Studio Architecture 30 Day Plan</title>
+<style>
+:root{
+  --navy:#0b1f36; --card:#12355b; --blue:#0f4c81; --gold:#c8a24a; --gold-l:#e3c77f;
+  --bg:#e9eff6; --white:#ffffff; --red:#b3261e; --green:#1f6f43;
+  --text:#1a2533; --muted:#4f5d6e; --line:#d5dee9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;font-size:16px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+section{padding:64px 0}
+h1,h2,h3{line-height:1.25}
+.hl{color:var(--gold);font-weight:700}
+.hl-d{background:#f6ecd2;color:var(--navy);font-weight:700;padding:0 4px;border-radius:3px}
+.sec-no{display:inline-block;color:var(--blue);font-weight:800;font-size:14px;letter-spacing:.12em;margin-bottom:8px}
+.sec-title{font-size:30px;color:var(--navy);margin-bottom:14px}
+.lead{color:var(--muted);max-width:760px;margin-bottom:32px}
+
+/* HERO */
+.hero{background:var(--navy);color:#fff;border-bottom:6px solid var(--gold);padding:0 0 56px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:48px;font-size:14px;flex-wrap:wrap}
+.topbar strong{letter-spacing:.04em}
+.topbar span{color:#b8c6d8}
+.eyebrow{color:var(--gold-l);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px}
+.hero h1{font-size:44px;margin-bottom:16px}
+.hero .outcome{font-size:20px;color:#d7e1ee;max-width:780px;margin-bottom:24px}
+.hero .outcome .hl{color:var(--gold-l)}
+.meta{display:flex;flex-wrap:wrap;gap:10px 28px;font-size:14px;color:#b8c6d8;margin-bottom:40px}
+.meta b{color:#fff;font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.kpi{background:var(--card);border-radius:10px;padding:22px}
+.kpi .n{font-size:38px;font-weight:800;color:var(--gold-l);line-height:1.1}
+.kpi .l{font-size:14px;color:#c9d5e4;margin-top:6px}
+
+/* FINDINGS */
+.findings{background:var(--bg)}
+.fcard{background:var(--white);border-radius:10px;box-shadow:0 4px 18px rgba(11,31,54,.08);padding:28px;margin-bottom:22px;border-left:5px solid var(--blue)}
+.fcard.med{border-left-color:var(--gold)}
+.fhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.fcard h3{font-size:20px;color:var(--navy)}
+.tag{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:20px;white-space:nowrap}
+.tag.high{background:var(--blue);color:#fff}
+.tag.medium{background:var(--gold);color:var(--navy)}
+.fcard p{color:var(--muted);margin-bottom:18px}
+
+/* split diagram */
+.split{display:grid;grid-template-columns:1fr 60px 1fr;align-items:center;gap:0}
+.node{border:2px solid var(--line);border-radius:8px;padding:16px;background:#f7f9fc}
+.node h4{font-size:14px;color:var(--navy);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.node ul{list-style:none;font-size:14px;color:var(--muted)}
+.node li{padding:3px 0}
+.node.local{border-color:var(--gold)}
+.node.nat{border-color:var(--blue)}
+.wall{text-align:center;font-size:12px;font-weight:700;color:var(--red);letter-spacing:.06em}
+.wall div{width:2px;height:60px;background:var(--red);margin:0 auto 6px}
+
+/* compare table */
+table{width:100%;border-collapse:collapse;font-size:14px}
+.cmp th{padding:12px;text-align:left;color:#fff;font-size:13px;letter-spacing:.04em}
+.cmp th.bad{background:var(--red)}
+.cmp th.good{background:var(--green)}
+.cmp td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top;width:50%}
+.cmp td.bad{background:#fbeeed;color:#5c1511}
+.cmp td.good{background:#eaf4ee;color:#123f27}
+
+.data thead th{background:var(--navy);color:#fff;padding:12px;text-align:left;font-size:13px}
+.data td{padding:12px;border-bottom:1px solid var(--line)}
+.data tr:nth-child(even) td{background:#f7f9fc}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:12px}
+.pill.l{background:#f6ecd2;color:#6b5314}
+.pill.n{background:#dde8f4;color:var(--blue)}
+.tscroll{overflow-x:auto}
+
+/* PLAN */
+.plan{background:var(--white)}
+.timeline{background:var(--navy);border-radius:12px;padding:28px;margin-bottom:36px;color:#fff}
+.timeline h3{font-size:16px;color:var(--gold-l);margin-bottom:18px;letter-spacing:.04em}
+.trow{display:grid;grid-template-columns:200px 1fr;gap:14px;align-items:center;margin-bottom:12px;font-size:14px}
+.trow .lbl{color:#d7e1ee}
+.track{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;height:22px}
+.track span{background:rgba(255,255,255,.08);border-radius:4px}
+.track span.on{background:var(--gold)}
+.weeks{display:grid;grid-template-columns:200px 1fr;gap:14px;font-size:12px;color:#8fa3bb;margin-bottom:10px}
+.weeks div:last-child{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center}
+.steps{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.step{border:1px solid var(--line);border-radius:10px;padding:22px;background:var(--white)}
+.step .no{width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.step h4{font-size:17px;color:var(--navy);margin-bottom:6px}
+.step p{font-size:14px;color:var(--muted)}
+.step .why{margin-top:10px;font-size:13px;color:var(--green);font-weight:600}
+
+/* RESULTS */
+.results{background:var(--navy);color:#fff}
+.results .sec-no{color:var(--gold-l)}
+.results .sec-title{color:#fff}
+.results .lead{color:#b8c6d8}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.rcard{background:var(--card);border-radius:12px;padding:24px}
+.rcard .cat{font-size:12px;color:#9fb3cb;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.rcard .big{font-size:40px;font-weight:800;color:var(--gold-l);line-height:1.1}
+.rcard .cap{font-size:14px;color:#d7e1ee;margin:6px 0 20px}
+.bar{margin-bottom:12px}
+.bar .bl{display:flex;justify-content:space-between;font-size:13px;color:#c9d5e4;margin-bottom:4px}
+.bar .bt{height:12px;background:rgba(255,255,255,.08);border-radius:6px;overflow:hidden}
+.bar .bf{height:100%;background:var(--gold);border-radius:6px}
+.bar .bf.dim{background:#5f7a99}
+.rnote{font-size:13px;color:#9fb3cb;border-top:1px solid rgba(255,255,255,.1);padding-top:12px;margin-top:8px}
+
+/* NEXT */
+.next{background:var(--bg)}
+.ngrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.ncard{background:var(--white);border-top:5px solid var(--gold);border-radius:10px;padding:24px;box-shadow:0 4px 18px rgba(11,31,54,.06)}
+.ncard .when{font-size:12px;font-weight:700;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.ncard h4{font-size:18px;color:var(--navy);margin-bottom:8px}
+.ncard p{font-size:14px;color:var(--muted)}
+
+/* CTA */
+.cta{background:var(--gold);padding:52px 0;text-align:center}
+.cta h2{font-size:30px;color:var(--navy);margin-bottom:10px}
+.cta p{color:#2c2410;max-width:620px;margin:0 auto 24px}
+.btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:14px 26px;border-radius:8px;font-weight:700;text-decoration:none;font-size:15px}
+.btn.p{background:var(--navy);color:#fff}
+.btn.s{background:transparent;color:var(--navy);border:2px solid var(--navy)}
+
+footer{background:var(--navy);color:#b8c6d8;padding:32px 0;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer strong{color:#fff}
+footer a{color:var(--gold-l);text-decoration:none}
+
+@media (max-width:820px){
+  .kpis,.rgrid,.ngrid,.steps{grid-template-columns:1fr}
+  .hero h1{font-size:34px}
+  .sec-title{font-size:25px}
+  .split{grid-template-columns:1fr;gap:10px}
+  .wall div{width:60px;height:2px;margin:0 auto 6px}
+  .trow,.weeks{grid-template-columns:1fr;gap:6px}
+  .weeks div:first-child{display:none}
+}
+@media (max-width:400px){
+  .wrap{padding:0 16px}
+  section{padding:48px 0}
+  .hero h1{font-size:28px}
+  .hero .outcome{font-size:17px}
+  .kpi .n,.rcard .big{font-size:32px}
+  .fcard,.timeline{padding:20px}
+  .cmp td,.cmp th,.data td,.data thead th{padding:9px;font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="topbar"><strong>USMAN GULL</strong><span>Local SEO and Off-Page SEO Plan</span></div>
+    <div class="eyebrow">30 day plan prepared for</div>
+    <h1>JL Studio Architecture</h1>
+    <p class="outcome">One Houston profile, one national practice, and a strategy that keeps them apart so <span class="hl">the local pack wins Houston developers while national content wins everyone else.</span></p>
+    <div class="meta">
+      <div>Date <b>October 1, 2026</b></div>
+      <div>Market <b>Houston, TX and national</b></div>
+      <div>Scope <b>Local SEO, GBP, off-page SEO</b></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="n">2</div><div class="l">separate keyword sets, local and national, never blurred</div></div>
+      <div class="kpi"><div class="n">2+</div><div class="l">tools behind every search volume figure, Semrush and Ahrefs</div></div>
+      <div class="kpi"><div class="n">Weekly</div><div class="l">GBP posts plus a monthly local grid report, sent without asking</div></div>
+    </div>
+  </div>
+</header>
+
+<section class="findings">
+  <div class="wrap">
+    <div class="sec-no">01</div>
+    <h2 class="sec-title">What we found</h2>
+    <p class="lead">Your brief names the real problem clearly: <span class="hl-d">national reach with a local profile, and a strategy that has to serve both without confusing either.</span> Three things follow from that.</p>
+
+    <div class="fcard">
+      <div class="fhead"><h3>Local and national intent are competing for the same signals</h3><span class="tag high">High impact</span></div>
+      <p>When Houston service terms and national terms sit on the same pages and in the same posts, Google gets mixed relevance signals. <strong>The GBP should own service plus Houston. National pages should own everything else.</strong></p>
+      <div class="split">
+        <div class="node local"><h4>Houston GBP and local pages</h4><ul><li>permit-ready commercial building plans Houston</li><li>commercial architect Houston</li><li>site feasibility study Houston</li></ul></div>
+        <div class="wall"><div></div>KEEP APART</div>
+        <div class="node nat"><h4>National content</h4><ul><li>permit-ready construction documents</li><li>commercial architectural design services</li><li>architectural visualization for developers</li></ul></div>
+      </div>
+    </div>
+
+    <div class="fcard med">
+      <div class="fhead"><h3>GBP posts need to lead with the developer's problem</h3><span class="tag medium">Medium impact</span></div>
+      <p>Developers and GCs read posts to judge whether you understand their schedule risk. A post that opens on a keyword or a service list loses them in the first line.</p>
+      <div class="tscroll"><table class="cmp">
+        <tr><th class="bad">Keyword first, what gets skipped</th><th class="good">Problem first, what gets read</th></tr>
+        <tr><td class="bad">Looking for permit-ready commercial building plans in Houston? Our architects offer design, drafting and permit services.</td><td class="good">Every month a permit set sits in review comments is a month of carrying costs on land that is not earning. Most of those comments trace back to a handful of issues that can be caught before submission.</td></tr>
+        <tr><td class="bad">Generic office block photo, no people</td><td class="good">Photo of your team on a real site, sized for GBP before upload</td></tr>
+      </table></div>
+    </div>
+
+    <div class="fcard">
+      <div class="fhead"><h3>Keyword volumes have to be verified before a month of work is built on them</h3><span class="tag high">High impact</span></div>
+      <p>B2B architecture terms often show zero or blank in Keyword Planner even when they are commercially competitive. <strong>Every term is cross-checked in Semrush and Ahrefs</strong> and prioritized by commercial intent, not by whichever tool shows the biggest number.</p>
+      <div class="tscroll"><table class="data">
+        <thead><tr><th>Keyword</th><th>Set</th><th>Intent</th><th>Verification</th></tr></thead>
+        <tr><td>permit-ready commercial building plans Houston</td><td><span class="pill l">Local</span></td><td>High, ready to hire</td><td>Semrush + Ahrefs, week 1</td></tr>
+        <tr><td>commercial architect Houston</td><td><span class="pill l">Local</span></td><td>High, shortlisting</td><td>Semrush + Ahrefs, week 1</td></tr>
+        <tr><td>permit-ready construction documents</td><td><span class="pill n">National</span></td><td>High, national buyers</td><td>Semrush + Ahrefs, week 1</td></tr>
+        <tr><td>architectural visualization for developers</td><td><span class="pill n">National</span></td><td>Medium, marketing stage</td><td>Semrush + Ahrefs, week 1</td></tr>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<section class="plan">
+  <div class="wrap">
+    <div class="sec-no">02</div>
+    <h2 class="sec-title">The 30 day plan</h2>
+    <p class="lead">Sequenced so the foundations are fixed before links and content are scaled.</p>
+
+    <div class="timeline">
+      <h3>WEEK BY WEEK</h3>
+      <div class="weeks"><div></div><div><span>Wk 1</span><span>Wk 2</span><span>Wk 3</span><span>Wk 4</span></div></div>
+      <div class="trow"><div class="lbl">Keyword sets and baseline grid</div><div class="track"><span class="on"></span><span></span><span></span><span></span></div></div>
+      <div class="trow"><div class="lbl">GBP rebuild and NAP audit</div><div class="track"><span class="on"></span><span class="on"></span><span></span><span></span></div></div>
+      <div class="trow"><div class="lbl">Backlink audit and disavow</div><div class="track"><span></span><span class="on"></span><span></span><span></span></div></div>
+      <div class="trow"><div class="lbl">Weekly GBP posts</div><div class="track"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div></div>
+      <div class="trow"><div class="lbl">Editorial links and digital PR</div><div class="track"><span></span><span></span><span class="on"></span><span class="on"></span></div></div>
+    </div>
+
+    <div class="steps">
+      <div class="step"><div class="no">1</div><h4>Build and verify both keyword sets</h4><p>Service plus Houston terms for the profile, national terms for content. Every volume cross-checked in Semrush and Ahrefs, with a written reason for each priority.</p><div class="why">Why: nothing gets built on a number that cannot be explained.</div></div>
+      <div class="step"><div class="no">2</div><h4>Rebuild the Google Business Profile</h4><p>Categories, services, products, attributes and Q&amp;A aligned to the local set. Baseline grid scan in Local Falcon so movement is measured from day one.</p><div class="why">Why: the profile is the only asset that ranks in the Houston local pack.</div></div>
+      <div class="step"><div class="no">3</div><h4>Fix NAP and citations</h4><p>Audit every directory and citation for name, address and phone consistency, then correct or claim.</p><div class="why">Why: inconsistent NAP weakens local trust signals.</div></div>
+      <div class="step"><div class="no">4</div><h4>Audit links, then build relevant ones</h4><p>Toxic link review and disavow where warranted, anchor distribution planned, then editorial links from architecture, construction and CRE sites, plus AEC directories and associations.</p><div class="why">Why: relevance of the referring site matters more than volume.</div></div>
+      <div class="step"><div class="no">5</div><h4>Expert commentary from your principal architect</h4><p>Journalist and trade publication pitches on permitting, feasibility and development topics, with your principal as the named source.</p><div class="why">Why: it earns editorial links a directory never will.</div></div>
+      <div class="step"><div class="no">6</div><h4>Weekly report, including what did not work</h4><p>Local pack movement, organic positions, every link with live URL, domain metrics and anchor, and GBP engagement.</p><div class="why">Why: you check the work, not take it on trust.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="results">
+  <div class="wrap">
+    <div class="sec-no">03</div>
+    <h2 class="sec-title">Comparable results</h2>
+    <p class="lead">Local profile, organic ranking and link building work from recent client accounts.</p>
+    <div class="rgrid">
+      <div class="rcard">
+        <div class="cat">Google Business Profile</div>
+        <div class="big">+147%</div>
+        <div class="cap">profile interaction growth, medical aesthetic clinic</div>
+        <div class="bar"><div class="bl"><span>Profile views, 6 months</span><span>1,062</span></div><div class="bt"><div class="bf" style="width:100%"></div></div></div>
+        <div class="bar"><div class="bl"><span>Profile interactions, 6 months</span><span>491</span></div><div class="bt"><div class="bf" style="width:46%"></div></div></div>
+        <div class="rnote">5.0 star rating maintained</div>
+      </div>
+      <div class="rcard">
+        <div class="cat">Organic ranking</div>
+        <div class="big">13.7 to 9.5</div>
+        <div class="cap">average ranking improved, sleep and snoring clinic</div>
+        <div class="bar"><div class="bl"><span>Before</span><span>13.7</span></div><div class="bt"><div class="bf dim" style="width:100%"></div></div></div>
+        <div class="bar"><div class="bl"><span>After</span><span>9.5</span></div><div class="bt"><div class="bf" style="width:69%"></div></div></div>
+        <div class="rnote">+108% organic traffic, +240% form enquiries</div>
+      </div>
+      <div class="rcard">
+        <div class="cat">Link building</div>
+        <div class="big">1,270+</div>
+        <div class="cap">high authority backlinks built</div>
+        <div class="bar"><div class="bl"><span>Avg ranking before, hot tub retailer</span><span>25.5</span></div><div class="bt"><div class="bf dim" style="width:100%"></div></div></div>
+        <div class="bar"><div class="bl"><span>Avg ranking after</span><span>20.9</span></div><div class="bt"><div class="bf" style="width:82%"></div></div></div>
+        <div class="rnote">246 external backlinks on that account</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="next">
+  <div class="wrap">
+    <div class="sec-no">04</div>
+    <h2 class="sec-title">What happens next</h2>
+    <p class="lead">Three steps to get the first week moving.</p>
+    <div class="ngrid">
+      <div class="ncard"><div class="when">Step 1</div><h4>15 minute call</h4><p>We confirm positioning, the principal architect's availability for commentary, and the weekly review slot in US Central time.</p></div>
+      <div class="ncard"><div class="when">Step 2</div><h4>Access</h4><p>Manager access to GBP, Search Console and GA4. Semrush, Ahrefs and Local Falcon run on my own paid accounts.</p></div>
+      <div class="ncard"><div class="when">Step 3</div><h4>First week delivered</h4><p>Verified keyword sets, baseline local grid scan, GBP fixes list and the first problem-led post, ready for your review.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="cta">
+  <div class="wrap">
+    <h2>Let's have a quick call</h2>
+    <p>I will walk you through this plan and share the verified keyword sets within 24 hours after.</p>
+    <div class="btns">
+      <a class="btn p" href="mailto:sales@usmangullpro.com">Book a call</a>
+      <a class="btn s" href="https://usmangullpro.com">View portfolio</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><strong>Usman Gull</strong>, Google Ads and SEO Specialist</div>
+    <div><a href="mailto:sales@usmangullpro.com">sales@usmangullpro.com</a> · <a href="https://usmangullpro.com">usmangullpro.com</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
